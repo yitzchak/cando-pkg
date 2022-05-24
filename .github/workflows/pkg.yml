@@ -14,6 +14,9 @@ jobs:
       env:
         PKGDEST: pkg/arch
     steps:
+      - name: Set permissions
+        run: |
+          sudo chown -R build: .
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
@@ -32,6 +35,9 @@ jobs:
       env:
         PKGDEST: pkg/arch
     steps:
+      - name: Set permissions
+        run: |
+          sudo chown -R build: .
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
