@@ -14,7 +14,7 @@ jobs:
       options: --user ab
       env:
         PKGDEST: pkg/arch
-        SUDO_ASKPASS: echo
+        SUDO_ASKPASS: echo -e "\n"
     steps:
       - name: Set permission
         run: |
@@ -38,7 +38,7 @@ jobs:
       options: --user ab
       env:
         PKGDEST: pkg/arch
-        SUDO_ASKPASS: echo
+        SUDO_ASKPASS: echo -e "\n"
     steps:
       - name: Set permission
         run: |
