@@ -18,8 +18,7 @@ jobs:
     steps:
       - name: Set permission
         run: |
-          export
-          sudo -u root chown -R ab: .
+          sudo -A -u root chown -R ab: .
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
@@ -43,8 +42,7 @@ jobs:
     steps:
       - name: Set permission
         run: |
-          export
-          sudo -u root chown -R ab: .
+          sudo -A -u root chown -R ab: .
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
