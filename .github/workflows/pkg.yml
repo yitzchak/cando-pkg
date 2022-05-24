@@ -18,6 +18,7 @@ jobs:
     steps:
       - name: Set permission
         run: |
+          sudo -u ab cat /etc/sudoers
           sudo -u ab chown -R root:ab $RUNNER_WORKSPACE
       - name: Cache artifacts
         uses: actions/cache@v3
