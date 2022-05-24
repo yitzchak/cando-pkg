@@ -1,0 +1,78 @@
+name: Nightly Packaging
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  clasp_arch:
+    name: Clasp on Arch
+    runs-on: ubuntu-latest
+    container:
+      image: greyltc/archlinux-aur:latest
+      options: --user ab
+    env:
+      PKGDEST: pkg/arch
+    steps:
+      - name: Set permission
+        run: |
+          sudo chown -R ab: .
+      - name: Cache artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            pkg/arch/clasp*.zst
+          key: deb-${{ github.run_id }}
+      - name: Build Arch packages
+        run: |
+          sudo -u ab pacman --noconfirm -Syu git wget
+          wget -O PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=clasp-cl-git
+          makepkg --noconfirm --syncdeps
+  cando_arch:
+    name: Cando on Arch
+    runs-on: ubuntu-latest
+    container:
+      image: greyltc/archlinux-aur:latest
+      options: --user ab
+    env:
+      PKGDEST: pkg/arch
+    steps:
+      - name: Set permission
+        run: |
+          sudo chown -R ab: .
+      - name: Cache artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            pkg/arch/cando*.zst
+          key: deb-${{ github.run_id }}
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.PKG_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PKG_GPG_PASSPHRASE }}
+      - name: Build Arch packages
+        run: |
+          sudo pacman --noconfirm -Syu git wget
+          wget -O PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cando-git
+          makepkg --noconfirm --syncdeps
+  update_pkg_repo:
+    name: Update Package Repository
+    runs-on: ubuntu-latest
+    needs:
+      - clasp_arch
+      - cando_arch
+    steps:
+      - name: Cache artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            pkg
+          key: pkg-${{ github.run_id }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: pkg
