@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Set permission
         run: |
-          sudo -A -u root chown -R ab: .
+          sudo -u ab chown -R ab: $RUNNER_WORKSPACE
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Set permission
         run: |
-          sudo -A -u root chown -R ab: .
+          sudo -u ab chown -R ab: $RUNNER_WORKSPACE
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
