@@ -22,7 +22,6 @@ jobs:
           key: deb-${{ github.run_id }}
       - name: Build Arch packages
         run: |
-          sudo -u build pacman --noconfirm -Syu git wget
           wget -O PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=clasp-cl-git
           makepkg --noconfirm --syncdeps
   cando_arch:
@@ -47,7 +46,6 @@ jobs:
           passphrase: ${{ secrets.PKG_GPG_PASSPHRASE }}
       - name: Build Arch packages
         run: |
-          sudo -u build pacman --noconfirm -Syu git wget
           wget -O PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cando-git
           makepkg --noconfirm --syncdeps
   update_pkg_repo:
