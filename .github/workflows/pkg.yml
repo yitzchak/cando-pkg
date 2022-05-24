@@ -10,7 +10,7 @@ jobs:
     name: Clasp on Arch
     runs-on: ubuntu-latest
     container:
-      image: yitzchak/archlinux-makepkg:main
+      image: yitzchak/archlinux-makepkg:latest
       env:
         PKGDEST: pkg/arch
     steps:
@@ -28,7 +28,7 @@ jobs:
     name: Cando on Arch
     runs-on: ubuntu-latest
     container:
-      image: yitzchak/archlinux-makepkg:main
+      image: yitzchak/archlinux-makepkg:latest
       env:
         PKGDEST: pkg/arch
     steps:
