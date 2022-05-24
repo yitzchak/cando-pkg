@@ -10,16 +10,10 @@ jobs:
     name: Clasp on Arch
     runs-on: ubuntu-latest
     container:
-      image: greyltc/archlinux-aur:latest
-      options: --user ab
+      image: yitzchak/archlinux-makepkg:main
       env:
         PKGDEST: pkg/arch
-        SUDO_ASKPASS: echo -e "\n"
     steps:
-      - name: Set permission
-        run: |
-          sudo -u ab cat /etc/sudoers
-          sudo -u ab chown -R root:ab $RUNNER_WORKSPACE
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
@@ -28,22 +22,17 @@ jobs:
           key: deb-${{ github.run_id }}
       - name: Build Arch packages
         run: |
-          sudo -u ab pacman --noconfirm -Syu git wget
+          sudo -u build pacman --noconfirm -Syu git wget
           wget -O PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=clasp-cl-git
           makepkg --noconfirm --syncdeps
   cando_arch:
     name: Cando on Arch
     runs-on: ubuntu-latest
     container:
-      image: greyltc/archlinux-aur:latest
-      options: --user ab
+      image: yitzchak/archlinux-makepkg:main
       env:
         PKGDEST: pkg/arch
-        SUDO_ASKPASS: echo -e "\n"
     steps:
-      - name: Set permission
-        run: |
-          sudo -u ab chown -R root:ab $RUNNER_WORKSPACE
       - name: Cache artifacts
         uses: actions/cache@v3
         with:
@@ -58,7 +47,7 @@ jobs:
           passphrase: ${{ secrets.PKG_GPG_PASSPHRASE }}
       - name: Build Arch packages
         run: |
-          sudo pacman --noconfirm -Syu git wget
+          sudo -u build pacman --noconfirm -Syu git wget
           wget -O PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cando-git
           makepkg --noconfirm --syncdeps
   update_pkg_repo:
