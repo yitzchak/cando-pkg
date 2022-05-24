@@ -12,9 +12,9 @@ jobs:
     container:
       image: greyltc/archlinux-aur:latest
       options: --user ab
-    env:
-      PKGDEST: pkg/arch
-      SUDO_ASKPASS: echo
+      env:
+        PKGDEST: pkg/arch
+        SUDO_ASKPASS: echo
     steps:
       - name: Set permission
         run: |
@@ -36,9 +36,9 @@ jobs:
     container:
       image: greyltc/archlinux-aur:latest
       options: --user ab
-    env:
-      PKGDEST: pkg/arch
-      SUDO_ASKPASS: echo
+      env:
+        PKGDEST: pkg/arch
+        SUDO_ASKPASS: echo
     steps:
       - name: Set permission
         run: |
